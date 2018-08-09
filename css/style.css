@@ -2,12 +2,12 @@
 
 /*map*/
 .countries {
-    fill: #FFF;
-    stroke: #CCC;
-    stroke-width: 2px;
+    fill: rgba(245, 245, 245);
+    stroke: #777;
+    stroke-width: 1px;
 }
 .gratBackground {
-    fill: #D5E3FF;
+    fill: #DDEEFF;
 }
 
 .gratLines {
@@ -40,13 +40,14 @@
 }
 
 .chartTitle {
-    font-family: sans-serif;
-    font-size: 1em;
-    font-weight: bold;
+    font-family: monospace;
+    font-size: 1.25em;
+    font-weight: bolder;
 }
 
 .chartBackground {
-    fill: rgba(128, 128, 128, .2);
+    fill: rgba(235, 235, 235, .9);
+    fill: rgba(235, 235, 235, .9);
 }
 
 .chartFrame {
@@ -60,14 +61,15 @@
 .axis line {
     fill: none;
     stroke: #999;
-    stroke-width: 1px;
+    stroke-width: 2px;
     shape-rendering: crispEdge;
 }
 
 .axis text {
-    font-family: sans-serif;
-    font-size: 0.8em;
-    fill: #999;
+    font-family: monospace;
+    font-size: 0.7em;
+    font-weight: bolder;
+    fill: #777;
 }
 
 /*dropdown menu*/
@@ -76,9 +78,9 @@
     top: 30px;
     left: 40px;
     z-index: 10;
-    font-family: sans-serif;
+    font-family: monospace;
     font-size: 1em;
-    font-weight: bold;
+    font-weight: normal;
     padding: 2px;
     border: 1px solid #999;
     box-shadow: 2px 2px 4px #999;
@@ -93,8 +95,11 @@ option {
     position: absolute;
     height: 50px;
     min-width: 100px;
-    color: #fff;
-    background-color: #999;
+    color: #000;
+    font-size: 1em;
+    font-family: monospace;
+    font-weight: 400;
+    background-color: rgba(220, 220, 220, 0.85);
     border: solid thin #fff;
     padding: 5px 10px;
     top: -75px;
@@ -105,5 +110,10 @@ option {
     margin: 0 20px 0 0;
     padding: 0;
     display: inline-block;
-    line-height: 1em;
+    line-height: 1.75em;
+}
+
+.labelname {
+
+    display: inline-block;
 }

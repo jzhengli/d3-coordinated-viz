@@ -158,16 +158,16 @@
             let asia = data[1];
             let china = data[2];
 
-    //        console.log(csvData); //csv file
-    //        console.log(asia); //Asia shape
-    //        console.log(china); //China provinces        
+//            console.log(csvData); //csv file
+//            console.log(asia); //Asia shape
+//            console.log(china); //China provinces        
 
             //translate topojson to geojson
             var asiaShape = topojson.feature(asia, asia.objects.Asia_line),
                 chinaProvinces = topojson.feature(china, china.objects.China_provinces).features;
 
-    //        console.log(asiaShape);
-    //        console.log(chinaProvinces);
+//            console.log(asiaShape);
+//            console.log(chinaProvinces);
 
             //add Asia countries to map
             var countries = map.append("path")
@@ -358,6 +358,9 @@
             .data(csvData)
             .enter()
             .append("rect")
+            .filter(function(d){
+                return d[expressed] != "NoData";
+            })
             .sort(function(a, b){
                 return b[expressed] - a[expressed];
             })
@@ -403,7 +406,7 @@
         
         //create chart title
         var chartTitle = chart.append("text")
-            .attr("x", 100)
+            .attr("x", 70)
             .attr("y", 40)
             .attr("class", "chartTitle")
             .text(expressed + " of each province");
@@ -470,6 +473,9 @@
         
         //re-create the bar-resort, resize, recolor
         var bars = d3.selectAll(".bars")
+            .filter(function(d){
+                return d[expressed] != "NoData";
+            })
             .sort(function(a, b){
                 return b[expressed] - a[expressed];
             })
@@ -549,7 +555,7 @@
     //function to create dynamic label
     function setLabel(props){
         //label content
-        var labelAttribute = "<h1>" + props[expressed] + "</h1><b>" + expressed + "</b>";
+        var labelAttribute = "<h1>" + props[expressed] + "</h1>";
         //console.log(props);
         //create info label div
         var infolabel = d3.select("body")
@@ -580,7 +586,7 @@
         //horizontal label coordinate, testing for overflow
         var x = d3.event.clientX > window.innerWidth - labelWidth - 20 ? x2 : x1;
         //vertical label coordinate, testing for overflow
-        var y = d3.event.clientY < 125 ? y2 : y1;
+        var y = d3.event.clientY < 105 ? y2 : y1;
         
         d3.select(".infolabel")
             .style("left", x + "px")
