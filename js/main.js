@@ -35,6 +35,10 @@
     //-*moved4
     //create a second svg element to hold the bar chart
     var chart = d3.select("body")
+        .append("div")
+        .attr("class", "viz")
+        .append("div")
+        .attr("class", "vizChart")
         .append("svg")
         .attr("class", "chart")
         .attr("width", chartWidth)
@@ -51,7 +55,30 @@
     
 
     //begin script when window loads
-    window.onload = setMap();
+    window.onload = setPage();
+    
+    //function to initialize the page
+    function setPage(){
+        setMap();
+        
+        //add title
+        d3.select("body")
+            .append("div")
+            .attr("class", "title")
+            .append("h1")
+            .attr("class", "titleText")
+            .text("China Facts");
+        
+        var notesHtml = "Glossary:</br>1.GDP: <a href\"https://en.wikipedia.org/wiki/Gross_domestic_product\">Gross Domestic Product</a></br>2.HDI: <a href=\"http://hdr.undp.org/en/content/human-development-index-hdi\">Human Development Index</a></br>3.DLI: <a href=\"http://www.stats.gov.cn/tjsj/zxfb/201302/t20130208_12935.html\">Development and Life Index</a></br>4.<a href=\"https://en.wikipedia.org/wiki/Life_expectancy\">Life Expectancy</a>" 
+        
+        d3.select("body")
+            .append("div")
+            .attr("class", "notes")
+            .append("p")
+            .attr("class", "notesText")
+            .html(notesHtml);
+        
+    }; //end of function setPage
 
     //set up choropleth map
     function setMap(){
@@ -61,7 +88,9 @@
             height = 460;
 
         //create new svg container for the map
-        var map = d3.select("body")
+        var map = d3.select(".viz")
+            .append("div")
+            .attr("class", "vizMap")
             .append("svg")
             .attr("class", "map")
             .attr("width", width)
@@ -196,7 +225,7 @@
             
         }); //end of "call back" function
 
-    };//end of set map
+    };//end of setMap
     
     //function to set graticule
     function setGraticule(map, path){
@@ -216,7 +245,7 @@
             .append("path") //append each element to the svg as a path element
             .attr("class", "gratLines") //assign class for styling
             .attr("d", path);
-    }; //end of setGraticule function
+    }; //end of function setGraticule 
     
     //function for joining data
     function joinData(chinaProvinces, csvData){
@@ -241,7 +270,7 @@
             };
         };
         return chinaProvinces;
-    }; //end of joinData function
+    }; //end of function joinData 
     
     //function to set enumeration units
     function setEnumerationUnits(chinaProvinces, map, path, colorScale){
@@ -269,23 +298,55 @@
         //add style descriptor to each path
         var desc = provinces.append("desc")
             .text('{"stroke": "#000", "stroke-width": "0.5px"}');
-    }; //end of setEnumerationUnits function
+    }; //end of function setEnumerationUnits 
     
     //function to create color scale generator
     function makeColorScale(data){
-        var colorClasses = [
-            "#ffffb2",
-            "#fecc5c",
-            "#fd8d3c",
-            "#f03b20",
-            "#bd0026"           
-        ];
+        var colorClasses = {
+            "GDP(2017-billion(CH¥))": [
+                "#ffffcc",
+                "#a1dab4",
+                "#41b6c4",
+                "#2c7fb8",
+                "#253494"
+            ],
+            "Population(2010-million)": [
+                "#ffffb2",
+                "#fecc5c",
+                "#fd8d3c",
+                "#f03b20",
+                "#bd0026" 
+            ],
+            "HDI%(2016)": [
+                "#edf8fb",
+                "#b3cde3",
+                "#8c96c6",
+                "#8856a7",
+                "#810f7c"
+            ],
+            "DLI%(2012)": [
+                "#feebe2",
+                "#fbb4b9",
+                "#f768a1",
+                "#c51b8a",
+                "#7a0177"
+            ],
+            "Life-Expectancy(2013-2016)": [
+                "#edf8e9",
+                "#bae4b3",
+                "#74c476",
+                "#31a354",
+                "#006d2c"
+            ]
+        };
+        
+        //console.log(colorClasses[expressed]);
+//        ////test with quantile color scale
         
         //create color scale generator
-        var colorScale = d3.scaleQuantile()
-            .range(colorClasses);
-        
-//        ////test with quantile color scale
+//        var colorScale = d3.scaleQuantile()
+//            .range(colorClasses[expressed]);
+
 //        //build array of all values of the expressed attribute
 //        var domainArray = [];
 //        for(let i=0; i<data.length; i++){
@@ -298,7 +359,7 @@
         
         ////use Natural Breaks
         var colorScale = d3.scaleThreshold()
-            .range(colorClasses);
+            .range(colorClasses[expressed]);
         
         //build array of all values of the expressed attribute
         var domainArray = [];
@@ -324,7 +385,7 @@
         colorScale.domain(domainArray);
         
         return colorScale;
-    }; //end of makeColorScale function
+    }; //end of function makeColorScale 
     
     //function to test for data value and return color
     function choropleth(props, colorScale){
@@ -423,7 +484,7 @@
     //function to create a dropdown menu for attribute selection
     function createDropdown(csvData){
         //add selection element
-        var dropdown = d3.select("body")
+        var dropdown = d3.select(".vizMap")
             .append("select")
             .attr("class", "dropdown")
             .on("change", function(){ //add a listener for attribute changes from dropdown menu
@@ -434,7 +495,7 @@
         var titleOption = dropdown.append("option")
             .attr("class", "titleOption")
             .attr("disabled", "true")
-            .text("Select Attribute");
+            .text("Choose fact");
         
         //add attribute name options
         var attrOptions = dropdown.selectAll("attrOptions")
@@ -463,7 +524,7 @@
         //recolor enumeration units
         var provinces = d3.selectAll(".provinces")
             .transition() //add animation
-            .duration(500)
+            .duration(800)
             .delay(function(d,i){
                 return i * 10;
             })
@@ -481,9 +542,9 @@
             })
             .transition() //add animation
             .delay(function(d,i){
-                return i * 20;
+                return i * 15;
             })
-            .duration(400);
+            .duration(500);
         
         updateChart(bars, csvData.length, colorScale);
             
@@ -555,7 +616,7 @@
     //function to create dynamic label
     function setLabel(props){
         //label content
-        var labelAttribute = "<h1>" + props[expressed] + "</h1>";
+        var labelAttribute = "<h2>" + props[expressed] + "</h2>";
         //console.log(props);
         //create info label div
         var infolabel = d3.select("body")
@@ -564,9 +625,10 @@
             .attr("id", props.ADMIN_CODE + "_label")
             .html(labelAttribute)
         
+        var labelName = "<h1>" + props.NAME + "</h1>";
         var provinceName = infolabel.append("div")
             .attr("class", "labelname")
-            .html(props.NAME);
+            .html(labelName);
     }; //end of function setLabel
     
     //function to move info label with mouse
