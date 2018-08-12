@@ -69,7 +69,7 @@
             .attr("class", "titleText")
             .text("China Facts Visualization");
         
-        var notesHtml = "Glossary:</br>1.GDP: <a href\"https://en.wikipedia.org/wiki/Gross_domestic_product\">Gross Domestic Product</a></br>2.HDI: <a href=\"http://hdr.undp.org/en/content/human-development-index-hdi\">Human Development Index</a></br>3.DLI: <a href=\"http://www.stats.gov.cn/tjsj/zxfb/201302/t20130208_12935.html\">Development and Life Index</a></br>4.<a href=\"https://en.wikipedia.org/wiki/Life_expectancy\">Life Expectancy</a>" 
+        var notesHtml = "Glossary:</br>1.GDP: <a href=\"https://en.wikipedia.org/wiki/Gross_domestic_product\">Gross Domestic Product</a></br>2.HDI: <a href=\"http://hdr.undp.org/en/content/human-development-index-hdi\">Human Development Index</a></br>3.DLI: <a href=\"http://www.stats.gov.cn/tjsj/zxfb/201302/t20130208_12935.html\">Development and Life Index</a></br>4.<a href=\"https://en.wikipedia.org/wiki/Life_expectancy\">Life Expectancy</a>" 
         
         d3.select("body")
             .append("div")
