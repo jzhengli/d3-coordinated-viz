@@ -53,7 +53,13 @@
         .call(yAxis);
     //-*moved4
     
-
+    //bring the selected unite to the front
+    d3.selection.prototype.moveToFront = function() {
+        return this.each(function(){
+            this.parentNode.appendChild(this);
+        });
+    };
+    
     //begin script when window loads
     window.onload = setPage();
     
@@ -289,6 +295,8 @@
             .attr("d", path)
             .on("mouseover", function(d){ //event listener to highlight selected enumeration unit
                 highlight(d.properties);
+                var sel = d3.select(this);
+                sel.moveToFront();
             })
             .on("mouseout", function(d){ //event listener to dehighlighted selected enumeration unit
                 dehighlight(d.properties);
@@ -470,7 +478,7 @@
             .attr("x", chartWidth * 0.325)
             .attr("y", chartHeight/8)
             .attr("class", "chartTitle")
-            .text(expressed + " of each province");
+            .text(expressed);
     
         //create frame for chart border
         var chartFrame = chart.append("rect")
@@ -576,15 +584,15 @@
         
         //update chart title
         var chartTitle = d3.select(".chartTitle")
-            .text(expressed + " of each province");
+            .text(expressed);
     }; //end of function updateChart
     
     //function to highlight enumeration units and bars
     function highlight(props){
         //change stroke
         var selected = d3.selectAll("." + props.ADMIN_CODE)
-            .style("stroke", "blue")
-            .style("stroke-width", "2");
+            .style("stroke", "gold")
+            .style("stroke-width", "2.5");
         
         setLabel(props);
     }; //end of function highlight
